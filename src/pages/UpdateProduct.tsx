@@ -8,7 +8,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Loader from './Loader'
-import NotFound from './NotFound',
+import NotFound from './NotFound'
 
 const schema = yup.object().shape({
 	id: yup.string().required(),
