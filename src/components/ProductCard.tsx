@@ -7,9 +7,7 @@ const ProductCard: React.FC<Product> = ({ id, title, image }) => {
 		<Link to={`/product/${id}`}>
 			<div className='flex flex-col justify-between h-full'>
 				<img src={image} alt={title} className='w-full h-full object-cover' />
-				<h2 className='w-full h-full text-lg pt-2 px-5 md:text-base'>
-					{title}
-				</h2>
+				<h2 className='w-full h-full text-lg pt-2 px-5'>{title}</h2>
 			</div>
 		</Link>
 	);

@@ -7,6 +7,8 @@ import Container from '../components/Container';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import Loader from './Loader'
+import NotFound from './NotFound',
 
 const schema = yup.object().shape({
 	id: yup.string().required(),
@@ -48,9 +50,7 @@ const UpdateProduct: React.FC = () => {
 		error,
 	} = useAppSelector(state => state.products);
 
-	const [updateProductData, setUpdateProductData] = useState<Product | null>(
-		null,
-	);
+	const [updateProductData, setUpdateProductData] = useState<Product | null>(null);
 
 	const {
 		register,
@@ -67,9 +67,7 @@ const UpdateProduct: React.FC = () => {
 			if (existingProduct) {
 				reset(existingProduct);
 			} else {
-				dispatch(
-					getProduct({ id, errorMessage: 'Не удалось загрузить продукт.' }),
-				);
+				dispatch(getProduct({ id, errorMessage: 'Не удалось загрузить продукт.' }));
 			}
 		}
 	}, [dispatch, id, productsAll, reset]);
@@ -81,14 +79,9 @@ const UpdateProduct: React.FC = () => {
 			reset();
 		}
 	};
-
-	if (loading) {
-		return <p>Загрузка...</p>;
-	}
-
-	if (error) {
-		return <p>{error}</p>;
-	}
+	
+	if (loading) return <Loader />;
+	if (error) return <NotFound />;
 	return (
 		<section className='py-10'>
 			<Container>

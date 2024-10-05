@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import React, {useState} from 'react';
+import {useForm, SubmitHandler} from 'react-hook-form';
 import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useAppDispatch } from '../hooks';
-import { addNewProduct } from '../store/products/asyncActions';
-import { Product } from '../store/products/types';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {useAppDispatch} from '../hooks';
+import {addNewProduct} from '../store/products/asyncActions';
+import {Product} from '../store/products/types';
 import Container from '../components/Container';
 
 const schema = yup.object().shape({
@@ -40,17 +40,14 @@ const schema = yup.object().shape({
 
 const ProductCreation: React.FC = () => {
 	const [products, setProducts] = useState<Product[]>([]);
-
-	// Creation + updateProductData
 	const [createdProduct, setCreatedProduct] = useState<Product | null>(null);
-
 	const dispatch = useAppDispatch();
 
 	const {
 		register,
 		handleSubmit,
 		reset,
-		formState: { errors },
+		formState: {errors},
 	} = useForm<Product>({
 		resolver: yupResolver(schema),
 		defaultValues: {
@@ -67,7 +64,7 @@ const ProductCreation: React.FC = () => {
 
 	const onSubmit: SubmitHandler<Product> = data => {
 		console.log(data);
-		dispatch(addNewProduct({ data, errorMessage: 'Error Server!' }));
+		dispatch(addNewProduct({data, errorMessage: 'Error Server!'}));
 		setCreatedProduct(data);
 		setProducts(prevProducts => [...prevProducts, data]);
 		reset();
