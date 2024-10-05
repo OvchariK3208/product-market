@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { getProduct, updateProduct } from '../store/products/asyncActions';
 import { Product } from '../store/products/types';
@@ -42,7 +41,6 @@ const schema = yup.object().shape({
 
 const UpdateProduct: React.FC = () => {
 	const { id } = useParams();
-	console.log(id);
 	const dispatch = useAppDispatch();
 	const {
 		products: productsAll,
@@ -50,14 +48,12 @@ const UpdateProduct: React.FC = () => {
 		error,
 	} = useAppSelector(state => state.products);
 
-	const [productUpdate, setProductUpdate] = useState<Product[]>([]);
 	const [updateProductData, setUpdateProductData] = useState<Product | null>(
 		null,
 	);
 
 	const {
 		register,
-		setValue,
 		handleSubmit,
 		reset,
 		formState: { errors },
@@ -69,7 +65,6 @@ const UpdateProduct: React.FC = () => {
 		if (id) {
 			const existingProduct = productsAll.find(product => product.id === id);
 			if (existingProduct) {
-				// Заполняем форму данными продукта
 				reset(existingProduct);
 			} else {
 				dispatch(
@@ -81,28 +76,19 @@ const UpdateProduct: React.FC = () => {
 
 	const onSubmit: SubmitHandler<Product> = data => {
 		if (id) {
-			console.log(data);
 			dispatch(updateProduct({ id, data, errorMessage: 'Error Server!' }));
 			setUpdateProductData(data);
-			setProductUpdate(prevProducts => [...prevProducts, data]);
 			reset();
 		}
 	};
-	// Находим продукт в массиве
-	//const product = productsAll.find(product => product.id === id);
-	// console.log(product);
 
 	if (loading) {
 		return <p>Загрузка...</p>;
 	}
 
 	if (error) {
-		return <p>{error}</p>; // Отображаем сообщение об ошибке, если оно есть
+		return <p>{error}</p>;
 	}
-
-	//  	if (!product) {
-	// 		return <p>Продукт не найден.</p>; // Проверяем, что продукт существует
-	//	}
 	return (
 		<section className='py-10'>
 			<Container>

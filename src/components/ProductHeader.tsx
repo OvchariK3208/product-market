@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 interface ProductHeaderProps {
 	selectedLimit: number;
@@ -22,7 +22,8 @@ const ProductHeader: React.FC<ProductHeaderProps> = ({
 				onChange={handleChange}
 				className='p-2 rounded bg-white border-[0.2px] border-black'>
 				<option value={9}>9</option>
-				<option value={18}>18</option>
+				<option value={15}>15</option>
+				<option value={20}>All</option>
 			</select>
 		</div>
 	);

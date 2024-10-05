@@ -10,16 +10,9 @@ const Header: React.FC = () => {
 				<nav className='flex justify-between items-center'>
 					{/* Logo */}
 					<Link to='/'>
-						<img width="32" src={logoSvg} alt="Product Market Logo" />
+						<img width='32' src={logoSvg} alt='Product Market Logo' />
 					</Link>
-					<ul className='flex space-x-6'>
-						<li>
-							<Link
-								to='/'
-								className='text-center px-1 capitalize text-nowrap text-xl relative after:bg-slate-900 after:absolute after:h-[2px] after:w-0 after:-bottom-0.5 after:left-0 hover:after:w-full after:transition-all after:duration-300 cursor-pointer'>
-								Home
-							</Link>
-						</li>
+					<ul className='flex space-x-4 md:space-x-1'>
 						<li>
 							<Link
 								to='/products'

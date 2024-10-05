@@ -5,32 +5,36 @@ import { Product } from '../store/products/types';
 import Container from '../components/Container';
 import ProductHeader from '../components/ProductHeader';
 import ProductCard from '../components/ProductCard';
+import Loader from './Loader';
+import NotFound from './NotFound';
 
 const Products: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const { products, loading, error } = useAppSelector(state => state.products);
-	//const [limit, setLimit] = useState<number>(9);
-	//console.log("limit",limit)
+	const [page, setPage] = useState<number>(1);
+	const [limit, setLimit] = useState<number>(9);
 
 	useEffect(() => {
-		dispatch(fetchProductsAll({ errorMessage: 'Ошибка сервера!' }));
-	}, [dispatch]); //, limit]);
+		dispatch(
+			fetchProductsAll({ limit, page, errorMessage: 'Ошибка сервера!' }),
+		);
+	}, [dispatch, page, limit]);
 
 	const handleLimitChange = (newLimit: number) => {
-		//	setLimit(newLimit);
+		setLimit(newLimit);
 	};
 
-	if (loading) return <p>Загрузка...</p>;
-	if (error) return <p>{error}</p>;
+	if (loading) return <Loader />;
+	if (error) return <NotFound />;
 
 	return (
 		<section className='py-10'>
 			<Container>
-				{/*<ProductHeader
+				<ProductHeader
 					selectedLimit={limit}
 					onLimitChange={handleLimitChange}
-				/>*/}
-				<div className='grid grid-cols-3 gap-2'>
+				/>
+				<div className='grid grid-cols-3 gap-2 md:grid-cols-2'>
 					{products.map((product: Product) => (
 						<ProductCard key={product.id} {...product} />
 					))}

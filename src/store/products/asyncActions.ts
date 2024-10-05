@@ -3,7 +3,8 @@ import { Product } from './types';
 import http from '../../http';
 
 interface FetchProductsAllParams {
-	// limit: number;
+	limit: number;
+	page: number;
 	errorMessage: string;
 }
 
@@ -30,14 +31,17 @@ interface DeleteProductParams {
 
 export const fetchProductsAll = createAsyncThunk(
 	'products/fetchProductsAll',
-	async ({ errorMessage }: FetchProductsAllParams) => {
+	async ({ limit, page, errorMessage }: FetchProductsAllParams) => {
 		try {
-			const response = await http.get<Product[]>('/products');
-			// {
-			//   params: { limit }
-			// });
+			const response = await http.get<Product[]>('/products', {
+				params: {
+					limit,
+					page,
+				},
+			});
 			return response.data;
 		} catch (error) {
+			console.error(error);
 			throw new Error(errorMessage);
 		}
 	},
@@ -50,6 +54,7 @@ export const addNewProduct = createAsyncThunk(
 			const response = await http.post<Product>('/products', data);
 			return response.data;
 		} catch (error) {
+			console.error(error);
 			throw new Error(errorMessage);
 		}
 	},
@@ -62,6 +67,7 @@ export const getProduct = createAsyncThunk(
 			const response = await http.get<Product>(`/products/${id}`);
 			return response.data;
 		} catch (error) {
+			console.error(error);
 			throw new Error(errorMessage);
 		}
 	},
@@ -74,6 +80,7 @@ export const updateProduct = createAsyncThunk(
 			const response = await http.put<Product>(`/products/${id}`, data);
 			return response.data;
 		} catch (error) {
+			console.error(error);
 			throw new Error(errorMessage);
 		}
 	},
@@ -86,6 +93,7 @@ export const deleteProduct = createAsyncThunk(
 			const response = await http.delete<Product>(`/products/${id}`);
 			return response.data;
 		} catch (error) {
+			console.error(error)!;
 			throw new Error(errorMessage);
 		}
 	},

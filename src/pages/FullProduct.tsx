@@ -3,48 +3,41 @@ import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { getProduct, deleteProduct } from '../store/products/asyncActions';
-import { Product } from '../store/products/types';
 import Container from '../components/Container';
 
 const FullProduct: React.FC = () => {
 	const { id } = useParams();
-	console.log(id);
 	const dispatch = useAppDispatch();
 	const { products, loading, error } = useAppSelector(state => state.products);
 	const [showNotification, setShowNotification] = useState(false);
+	const product = products.find(product => product.id === id);
 
 	useEffect(() => {
 		if (id) {
-			// Проверяем, если продукт уже загружен в products, и только в этом случае не загружаем его снова
 			const existingProduct = products.find(product => product.id === id);
 			if (!existingProduct) {
 				dispatch(
-					getProduct({ id, errorMessage: 'Не удалось загрузить продукт.' }),
+					getProduct({
+						id,
+						errorMessage: 'Unfortunately, we were unable to load the product.',
+					}),
 				);
 			}
 		}
 	}, [dispatch, id, products]);
 
-	// Находим продукт в массиве
-	const product = products.find(product => product.id === id);
-	console.log(product);
-
 	const handleDelete = () => {
 		if (id) {
 			dispatch(
-				deleteProduct({ id, errorMessage: 'Не удалось удалить продукт.' }),
-			)
-				.unwrap()
-				.then(() => {
-					setShowNotification(true);
-					// Устанавливаем тайм-аут для скрытия уведомления через 5 секунд
-					setTimeout(() => {
-						setShowNotification(false);
-					}, 5000);
-				})
-				.catch(() => {
-					// Обработка ошибки, если необходимо
-				});
+				deleteProduct({
+					id,
+					errorMessage: 'Unfortunately, we were unable to delete the product.',
+				}),
+			);
+			setShowNotification(true);
+			setTimeout(() => {
+				setShowNotification(false);
+			}, 5000);
 		}
 	};
 
@@ -53,12 +46,13 @@ const FullProduct: React.FC = () => {
 	}
 
 	if (error) {
-		return <p>{error}</p>; // Отображаем сообщение об ошибке, если оно есть
+		return <p>{error}</p>;
 	}
 
 	if (!product) {
-		return <p>Продукт не найден.</p>; // Проверяем, что продукт существует
+		return <p>Unfortunately, the product was not found.</p>;
 	}
+
 	const { title, price, description, category, image, rating } = product;
 
 	return (
@@ -93,14 +87,14 @@ const FullProduct: React.FC = () => {
 							</Link>
 							<button
 								onClick={handleDelete}
-								className='rounded bg-red-500 text-white text-center px-4 py-2 border border-black capitalize text-nowrap text-xl cursor-pointer'>
+								className='rounded bg-red-100 text-black text-center px-4 py-2 border border-black capitalize text-nowrap text-xl cursor-pointer'>
 								Delete
 							</button>
 						</div>
 					</div>
 				</div>
 				{showNotification && (
-					<div className='fixed bottom-4 right-4 bg-green-500 text-white p-3 rounded'>
+					<div className='fixed bottom-4 right-4 bg-green-100 text-black p-3 rounded'>
 						Product has been successfully deleted.
 					</div>
 				)}

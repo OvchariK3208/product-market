@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useAppDispatch, useAppSelector } from '../hooks';
+import { useAppDispatch } from '../hooks';
 import { addNewProduct } from '../store/products/asyncActions';
 import { Product } from '../store/products/types';
 import Container from '../components/Container';
@@ -207,6 +207,12 @@ const ProductCreation: React.FC = () => {
 								<th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
 									Image
 								</th>
+								<th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
+									rating
+								</th>
+								<th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
+									id
+								</th>
 							</tr>
 						</thead>
 						<tbody className='bg-white divide-y divide-gray-200'>
@@ -230,6 +236,12 @@ const ProductCreation: React.FC = () => {
 											alt={product.title}
 											className='w-20 h-20 object-cover'
 										/>
+									</td>
+									<td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
+										{product.rating}
+									</td>
+									<td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
+										{product.id}
 									</td>
 								</tr>
 							))}
