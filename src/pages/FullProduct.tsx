@@ -1,31 +1,41 @@
-import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
-import {Link} from 'react-router-dom';
-import {useAppDispatch, useAppSelector} from '../hooks';
-import {getProduct, deleteProduct} from '../store/products/asyncActions';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { getProduct, deleteProduct } from '../store/products/asyncActions';
 import Container from '../components/Container';
-import Loader from './Loader'
-import NotFound from './NotFound'
+import Loader from './Loader';
+import NotFound from './NotFound';
 
 const FullProduct: React.FC = () => {
-	const {id} = useParams();
+	const { id } = useParams();
 	const dispatch = useAppDispatch();
-	const {products, loading, error} = useAppSelector(state => state.products);
+	const { products, loading, error } = useAppSelector(state => state.products);
 	const [showNotification, setShowNotification] = useState(false);
 	const product = products.find(product => product.id === id);
 
 	useEffect(() => {
 		if (id) {
-		  const existingProduct = products.find(product => product.id === id);
+			const existingProduct = products.find(product => product.id === id);
 			if (!existingProduct) {
-				dispatch(getProduct({id, errorMessage: 'Unfortunately, we were unable to load the product.'}));
+				dispatch(
+					getProduct({
+						id,
+						errorMessage: 'Unfortunately, we were unable to load the product.',
+					}),
+				);
 			}
 		}
 	}, [dispatch, id, products]);
 
 	const handleDelete = () => {
 		if (id) {
-			dispatch(deleteProduct({id, errorMessage: 'Unfortunately, we were unable to delete the product.'}));
+			dispatch(
+				deleteProduct({
+					id,
+					errorMessage: 'Unfortunately, we were unable to delete the product.',
+				}),
+			);
 			setShowNotification(true);
 			setTimeout(() => {
 				setShowNotification(false);
@@ -36,8 +46,8 @@ const FullProduct: React.FC = () => {
 	if (loading) return <Loader />;
 	if (error) return <NotFound />;
 	if (!product) return <p>Unfortunately, the product was not found.</p>;
-	
-	const {title, price, description, category, image, rating} = product;
+
+	const { title, price, description, category, image, rating } = product;
 
 	return (
 		<section>

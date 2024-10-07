@@ -41,7 +41,7 @@ export const fetchProductsAll = createAsyncThunk(
 			});
 			return response.data;
 		} catch (error) {
-		  console.error(error)
+			console.error(error);
 			throw new Error(errorMessage);
 		}
 	},
@@ -54,7 +54,7 @@ export const addNewProduct = createAsyncThunk(
 			const response = await http.post<Product>('/products', data);
 			return response.data;
 		} catch (error) {
-		  console.error(error)
+			console.error(error);
 			throw new Error(errorMessage);
 		}
 	},
@@ -67,7 +67,7 @@ export const getProduct = createAsyncThunk(
 			const response = await http.get<Product>(`/products/${id}`);
 			return response.data;
 		} catch (error) {
-		  console.error(error)
+			console.error(error);
 			throw new Error(errorMessage);
 		}
 	},
@@ -80,7 +80,7 @@ export const updateProduct = createAsyncThunk(
 			const response = await http.put<Product>(`/products/${id}`, data);
 			return response.data;
 		} catch (error) {
-		  console.error(error)
+			console.error(error);
 			throw new Error(errorMessage);
 		}
 	},
@@ -93,7 +93,7 @@ export const deleteProduct = createAsyncThunk(
 			const response = await http.delete<Product>(`/products/${id}`);
 			return response.data;
 		} catch (error) {
-		  console.error(error)!
+			console.error(error)!;
 			throw new Error(errorMessage);
 		}
 	},
